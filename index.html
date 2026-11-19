@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Belajar Bahasa Arab</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero-inner">
+        <h1>Belajar Bahasa Arab <span lang="ar">تعلم العربية</span></h1>
+        <p>Kenali huruf, hafalkan kosakata, baca hadits, lalu uji dirimu lewat kuis.</p>
+        <div class="stats">
+          <span><strong id="level">1 Level</strong></span>
+          <span><strong id="xp">44 XP</strong></span>
+          <span><strong id="streak">1 hari beruntun</strong></span>
+          <button class="practice" id="practiceBtn">Juara kuis</button>
+          <button class="sound" id="soundBtn">Efek suara: hidup</button>
+        </div>
+        <div class="progress-track"><div class="progress" id="progress"></div></div>
+      </div>
+    </header>
+
+    <main>
+      <nav class="tabs" aria-label="Materi">
+        <button class="tab active" data-tab="huruf">Huruf</button>
+        <button class="tab" data-tab="kosakata">Kosakata</button>
+        <button class="tab" data-tab="hadits">Hadits</button>
+        <button class="tab" data-tab="tajwid">Tajwid</button>
+        <button class="tab" data-tab="fikih">Fikih</button>
+        <button class="tab" data-tab="kuis">Kuis</button>
+      </nav>
+
+      <section class="content">
+        <div id="panel" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
