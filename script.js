@@ -14,13 +14,41 @@ const extra = {
     ['لغة','Lughah','bahasa'], ['زهرية','Zahriyah','vas bunga'], ['مفتاح','Miftah','kunci'], ['قمر','Qamar','bulan']
   ],
   hadits: [
-    ['الإيمان بضع وستون شعبة','“Iman memiliki lebih dari tujuh puluh cabang.”'],
-    ['خيركم من تعلم القرآن وعلمه','“Orang terbaik adalah yang belajar Al-Qur’an dan mengajarkannya.”'],
-    ['الدين النصيحة','“Agama adalah nasihat.”'],
-    ['إنما الأعمال بالنيات','“Sesungguhnya amal tergantung niatnya.”'],
-    ['طهور إناء أحدكم','“Basuh salah satu wadah kalian.”'],
-    ['لا ضرر ولا ضرار','“Tidak boleh membahayakan diri dan orang lain.”'],
-    ['المسلم من سلم المسلمون','“Muslim adalah orang yang kaum Muslim lain selamat dari lisannya dan tangannya.”']
+    {
+      arabic: 'إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ، وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى',
+      translation: 'Sesungguhnya amal itu bergantung pada niatnya, dan setiap orang mendapatkan sesuai dengan apa yang ia niatkan.',
+      narrator: 'Umar bin Khattab radhiyallahu ‘anhu', source: 'Sahih al-Bukhari 1', url: 'https://sunnah.com/bukhari:1'
+    },
+    {
+      arabic: 'الدِّينُ النَ��صِيحَةُ. قُلْنَا: لِمَنْ؟ قَالَ: لِلَّهِ وَلِكِتَابِهِ وَلِرَسُولِهِ وَلِأَئِمَّةِ الْمُسْلِمِينَ وَعَامَّتِهِمْ',
+      translation: 'Agama adalah nasihat. Kami bertanya, “Untuk siapa?” Beliau menjawab, “Untuk Allah, kitab-Nya, Rasul-Nya, para pemimpin kaum Muslimin, dan kaum Muslimin pada umumnya.”',
+      narrator: 'Tamim ad-Dari radhiyallahu ‘anhu', source: 'Sahih Muslim 55a', url: 'https://sunnah.com/muslim:55a'
+    },
+    {
+      arabic: 'خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ',
+      translation: 'Sebaik-baik kalian adalah orang yang mempelajari Al-Qur’an dan mengajarkannya.',
+      narrator: 'Utsman bin Affan radhiyallahu ‘anhu', source: 'Sahih al-Bukhari 5027', url: 'https://sunnah.com/bukhari:5027'
+    },
+    {
+      arabic: 'الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ',
+      translation: 'Seorang Muslim adalah orang yang kaum Muslimin selamat dari gangguan lisan dan tangannya.',
+      narrator: 'Abdullah bin Amr radhiyallahu ‘anhuma', source: 'Sahih al-Bukhari 10', url: 'https://sunnah.com/bukhari:10'
+    },
+    {
+      arabic: 'لَا ضَرَرَ وَلَا ضِرَارَ',
+      translation: 'Tidak boleh menimbulkan bahaya bagi diri sendiri maupun orang lain.',
+      narrator: 'Diriwayatkan dari Abu Sa’id al-Khudri radhiyallahu ‘anhu', source: 'Sunan Ibn Majah 2340', url: 'https://sunnah.com/ibnmajah:2340'
+    },
+    {
+      arabic: 'الإِيمَانُ بِضْعٌ وَسَبْعُونَ شُعْبَةً، فَأَفْضَلُهَا قَوْلُ لَا إِلَهَ إِلَّا اللَّهُ، وَأَدْنَاهَا إِمَاطَةُ الأَذَى عَنِ الطَّرِيقِ، وَالْحَيَاءُ شُعْبَةٌ مِنَ الإِيمَانِ',
+      translation: 'Iman memiliki lebih dari tujuh puluh cabang. Yang paling utama adalah ucapan “Laa ilaaha illallah”, yang paling rendah menyingkirkan gangguan dari jalan, dan malu adalah salah satu cabang iman.',
+      narrator: 'Abu Hurairah radhiyallahu ‘anhu', source: 'Sahih Muslim 35a', url: 'https://sunnah.com/muslim:35a'
+    },
+    {
+      arabic: 'لَا يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لِأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ',
+      translation: 'Tidak sempurna iman salah seorang dari kalian sampai ia mencintai untuk saudaranya apa yang ia cintai untuk dirinya sendiri.',
+      narrator: 'Anas bin Malik radhiyallahu ‘anhu', source: 'Sahih al-Bukhari 13', url: 'https://sunnah.com/bukhari:13'
+    }
   ],
   tajwid: [
     ['Idzhar','Harus dibaca jelas'], ['Ikhfa','Harus dibaca samar'], ['Idgham','Harus dibaca melebur'],
@@ -83,7 +111,7 @@ function updateVisitStreak() {
 }
 
 function saveProgress() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify({ xp, streak, lastVisit }));
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ xp, streak, lastVisit })); } catch (_) { /* Storage may be disabled. */ }
 }
 
 function updateStats() {
@@ -117,6 +145,16 @@ function renderLetters() {
 function renderCards(type) {
   const items = extra[type];
   const title = type[0].toUpperCase() + type.slice(1);
+  if (type === 'hadits') {
+    panel.innerHTML = `<h2>${title}</h2><p class="subtitle">Pilihan hadits, terjemahan, perawi, serta rujukan kitab dan nomor. Terjemahan disajikan secara ringkas.</p><div class="cards">${items.map(item => `
+      <article class="card hadith-card">
+        <span class="ar" lang="ar" dir="rtl">${item.arabic}</span>
+        <p>${item.translation}</p>
+        <p class="hadith-narrator">${item.narrator}</p>
+        <a class="hadith-source" href="${item.url}" target="_blank" rel="noopener noreferrer">Sumber: ${item.source} ↗</a>
+      </article>`).join('')}</div>`;
+    return;
+  }
   panel.innerHTML = `<h2>${title}</h2><p class="subtitle">Materi ringkas untuk dipelajari.</p><div class="cards">${items.map(item => {
     if (item.length === 3) {
       return `<article class="card"><span class="ar">${item[0]}</span><strong>${item[1]}</strong><p>${item[2]}</p></article>`;
